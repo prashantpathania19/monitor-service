@@ -14,10 +14,10 @@
     <name>monitor-service server</name>
 
     <properties>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
         <!-- for spring boot -->
-        <springframework.boot.version>2.2.6.RELEASE</springframework.boot.version>
+        <springframework.boot.version>2.6.0</springframework.boot.version>
         <!-- for not using spring as parent: to define that it does not need web.xml  -->
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
@@ -41,6 +41,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- Exclude the default Jackson dependency -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- jstl for jsp -->
         <dependency>
@@ -54,8 +61,6 @@
             <scope>provided</scope>
         </dependency>
 
-
-
         <!-- for db annotation, ex @Transactional -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -65,7 +70,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.49</version>
+            <version>5.1.47</version>
         </dependency>
         <!-- jdbi: db table mapper -->
         <dependency>
@@ -77,16 +82,6 @@
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-sqlobject</artifactId>
             <version>3.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi3-spring4</artifactId>
-            <version>3.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
         </dependency>
 
         <!-- h2db for in memory test-->
@@ -102,6 +97,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- log -->
@@ -217,6 +220,11 @@
                     <useDefaultDelimiters>false</useDefaultDelimiters>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+            </plugin>
             <!-- for exclude integration tests-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -233,7 +241,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                 </configuration>
             </plugin>
         </plugins>
